@@ -30,6 +30,17 @@ deploy:
     local_dir: deploy
     wait-until-deployed: true
 
+  - provider: codedeploy
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: hoon-boot2-build # s3 버킷
+    key: hoon-boot2-webservice.zip #빌드파일을 압축해서 전달
+    bundle_type: zip
+    application: hoon-boot2-webservice
+    deployment_group: hoon-boot2-webservice-group
+    region: ap-northeast-2
+    wait-until-deployed: true
+
 #CI 실행완료 시 메일로 알람
 notifications:
   email:
