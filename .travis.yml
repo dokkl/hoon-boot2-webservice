@@ -14,6 +14,22 @@ cache:
 
 script: "./gradlew clean build"
 
+before_deploy:
+  - zip -r hoon-boot2-webservice *
+  - mkdir -p deploy
+  - mv hoon-boot2-webservice.zip deploy/hoon-boot2-webservice.zip
+
+deploy:
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: hoon-boot2-webservice # s3 버킷
+    region: ap-northeast-2
+    skip_cleanup: true
+    acl: private # zip 접근을 private 으로
+    local_dir: deploy
+    wait-until-deployed: true
+
 #CI 실행완료 시 메일로 알람
 notifications:
   email:
